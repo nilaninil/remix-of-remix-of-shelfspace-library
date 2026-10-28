@@ -81,8 +81,8 @@ function Index() {
             The Collection
           </h1>
           <p className="mx-auto mt-3 max-w-xl text-sm text-muted-foreground sm:text-base">
-            Twenty hand-picked volumes across three oak shelves. Hover to lift a spine, click to
-            pull it forward.
+            Thirty-six volumes hand-picked across three oak shelves. Hover to lift a spine,
+            click to pull it forward.
           </p>
         </motion.div>
 
@@ -90,17 +90,19 @@ function Index() {
           <CategoryFilter active={category} onChange={setCategory} />
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.15 }}
-        >
-          <Bookcase
-            shelves={shelves}
-            selectedId={selectedId}
-            onSelect={(id) => setSelectedId((prev) => (prev === id ? null : id))}
-          />
-        </motion.div>
+        <div className="mx-auto w-full max-w-4xl">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+          >
+            <Bookcase
+              shelves={shelves}
+              selectedId={selectedId}
+              onSelect={(id) => setSelectedId((prev) => (prev === id ? null : id))}
+            />
+          </motion.div>
+        </div>
 
         <div className="mt-8 flex min-h-[76px] justify-center">
           <AnimatePresence mode="wait">
