@@ -1,5 +1,4 @@
-import { motion } from "framer-motion";
-import type { CSSProperties } from "react";
+import { motion, type MotionStyle } from "framer-motion";
 import type { Book } from "@/data/books";
 import { cn } from "@/lib/utils";
 
@@ -38,7 +37,7 @@ export function BookSpine({ book, selected, onSelect }: BookSpineProps) {
           width: book.width,
           "--spine-color": book.spineColor,
           zIndex: selected ? 30 : 1,
-        } as CSSProperties
+        } as MotionStyle
       }
     >
       <span className="spine-title" style={{ fontSize: titleFontSize(book.title) }}>
