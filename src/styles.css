@@ -415,3 +415,467 @@
   text-transform: uppercase;
   padding: 4px 12px;
 }
+
+/* ============ Open-book spread overlay ============ */
+
+.book-spread {
+  position: relative;
+  width: min(720px, 94vw);
+  aspect-ratio: 16 / 10.5;
+  max-height: 84vh;
+  perspective: 1600px;
+  filter: drop-shadow(0 34px 44px oklch(0.15 0.03 40 / 0.55));
+}
+
+.spread-pages {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: 10px 22px 22px 10px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--cream) 94%, oklch(0.72 0.09 70)),
+    var(--cream) 30%,
+    color-mix(in oklab, var(--cream) 92%, oklch(0.72 0.09 70))
+  );
+  box-shadow:
+    inset 0 0 0 1px oklch(0.45 0.08 55 / 0.35),
+    inset 0 2px 10px oklch(1 0 0 / 0.5);
+  overflow: hidden;
+}
+
+/* Center gutter where the binding meets the pages */
+.spread-pages::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 56px;
+  translate: -50% 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    oklch(0.35 0.06 50 / 0.18) 26%,
+    oklch(0.28 0.05 50 / 0.32) 50%,
+    oklch(0.35 0.06 50 / 0.18) 74%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.spread-page {
+  padding: clamp(14px, 3vw, 28px) clamp(14px, 3.4vw, 34px);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.spread-page-left {
+  padding-right: clamp(20px, 4vw, 44px);
+}
+
+.spread-page-right {
+  padding-left: clamp(20px, 4vw, 44px);
+}
+
+.spread-gutter {
+  display: none;
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: clamp(17px, 2.4vw, 24px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--ink);
+  margin-top: 14px;
+}
+
+.page-author {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(12px, 1.6vw, 15px);
+  color: var(--muted-foreground);
+  margin-top: 3px;
+}
+
+.page-kicker {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--wood) 80%, transparent);
+}
+
+.page-description {
+  font-size: clamp(11px, 1.5vw, 13.5px);
+  line-height: 1.55;
+  color: var(--foreground);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+  border-top: 1px dashed color-mix(in oklab, var(--gold) 55%, transparent);
+  border-bottom: 1px dashed color-mix(in oklab, var(--gold) 55%, transparent);
+  padding: 10px 0;
+}
+
+.detail-grid dt {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.detail-grid dd {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-top: 2px;
+}
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  background: var(--forest);
+  color: var(--cream);
+}
+
+.status-chip[data-status="issued"] {
+  background: var(--spine-rust);
+}
+
+.status-chip[data-status="reserved"] {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+/* Small decorative cover shown on the left page */
+.mini-cover {
+  position: relative;
+  width: clamp(96px, 15vw, 132px);
+  aspect-ratio: 3 / 4.2;
+  border-radius: 4px 8px 8px 4px;
+  background:
+    linear-gradient(
+      90deg,
+      oklch(0 0 0 / 0.4) 0%,
+      oklch(0 0 0 / 0) 12%,
+      oklch(1 0 0 / 0.16) 34%,
+      oklch(0 0 0 / 0.35) 100%
+    ),
+    var(--book-color);
+  box-shadow:
+    inset 0 0 0 1px oklch(0 0 0 / 0.35),
+    inset 0 0 0 4px color-mix(in oklab, var(--gold) 38%, transparent),
+    0 10px 18px -8px oklch(0.2 0.04 40 / 0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  padding: 12px 10px;
+}
+
+.mini-cover::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 16%;
+  right: 16%;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--gold-light), var(--gold));
+  opacity: 0.9;
+}
+
+.mini-cover-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(10px, 1.5vw, 13px);
+  line-height: 1.2;
+  color: var(--gold);
+  text-shadow: 0 1px 2px oklch(0 0 0 / 0.5);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.mini-cover-author {
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--cream) 85%, transparent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.mini-cover-imprint {
+  position: absolute;
+  bottom: 8px;
+  font-size: 6.5px;
+  letter-spacing: 0.3em;
+  color: color-mix(in oklab, var(--gold) 75%, transparent);
+}
+
+.mini-cover[data-tone="ink"] .mini-cover-title {
+  color: var(--ink);
+  text-shadow: 0 1px 1px oklch(1 0 0 / 0.4);
+}
+
+.mini-cover[data-tone="ink"] .mini-cover-author {
+  color: color-mix(in oklab, var(--ink) 80%, transparent);
+}
+
+/* 3D front cover, hinged at the spread's center line */
+.spread-cover {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 50%;
+  transform-style: preserve-3d;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.cover-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 4px 14px 14px 4px;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: clamp(16px, 4vw, 36px);
+  text-align: center;
+}
+
+.cover-front {
+  background:
+    radial-gradient(120% 90% at 30% 20%, oklch(1 0 0 / 0.12), transparent 55%),
+    linear-gradient(90deg, oklch(0 0 0 / 0.42) 0%, oklch(0 0 0 / 0) 10%, oklch(1 0 0 / 0.14) 30%, oklch(0 0 0 / 0.3) 100%),
+    var(--book-color);
+  box-shadow:
+    inset 0 0 0 1px oklch(0 0 0 / 0.4),
+    inset 0 0 0 6px color-mix(in oklab, var(--gold) 30%, transparent),
+    0 22px 40px -14px oklch(0.15 0.03 40 / 0.7);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+/* Leather spine strip along the cover's hinge edge */
+.cover-front::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 9%;
+  border-radius: 4px 0 0 4px;
+  background:
+    repeating-linear-gradient(180deg, oklch(0 0 0 / 0.25) 0 2px, transparent 2px 14px),
+    color-mix(in oklab, var(--book-color) 70%, oklch(0 0 0));
+  box-shadow: inset -2px 0 4px oklch(0 0 0 / 0.45);
+}
+
+.cover-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(16px, 2.6vw, 26px);
+  line-height: 1.2;
+  color: var(--gold);
+  text-shadow: 0 2px 3px oklch(0 0 0 / 0.5);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cover-author {
+  font-size: clamp(9px, 1.3vw, 12px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--cream) 88%, transparent);
+}
+
+.cover-imprint {
+  position: absolute;
+  bottom: clamp(12px, 2.5vw, 22px);
+  font-size: 8px;
+  letter-spacing: 0.3em;
+  color: color-mix(in oklab, var(--gold) 75%, transparent);
+}
+
+.cover-front[data-tone="ink"] .cover-title {
+  color: var(--ink);
+  text-shadow: 0 1px 1px oklch(1 0 0 / 0.4);
+}
+
+/* Inside of the front cover: marbled endpaper */
+.cover-back {
+  transform: rotateY(180deg);
+  border-radius: 4px 0 0 4px;
+  background:
+    radial-gradient(140% 120% at 20% 15%, oklch(0.78 0.08 55 / 0.55), transparent 60%),
+    radial-gradient(120% 100% at 80% 85%, oklch(0.5 0.09 40 / 0.5), transparent 55%),
+    linear-gradient(160deg, color-mix(in oklab, var(--wood) 55%, var(--cream)), color-mix(in oklab, var(--gold) 22%, var(--cream)));
+  box-shadow:
+    inset 0 0 0 1px oklch(0.4 0.06 50 / 0.4),
+    inset 0 0 26px oklch(0.3 0.05 45 / 0.35);
+}
+
+.spread-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--ink) 85%, transparent);
+  color: var(--cream);
+  box-shadow: 0 6px 14px -4px oklch(0.15 0.03 40 / 0.6);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.spread-close:hover {
+  background: var(--ink);
+  transform: scale(1.08);
+}
+
+.spread-close:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Circulation action buttons on the right page */
+.action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-radius: 10px;
+  padding: 9px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid oklch(0 0 0 / 0.25);
+  transition: filter 0.2s ease, transform 0.15s ease, opacity 0.2s ease;
+  cursor: pointer;
+}
+
+.action-btn:hover:not(:disabled) {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+
+.action-btn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.action-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.action-issue {
+  background: var(--forest);
+  color: var(--cream);
+}
+
+.action-reserve {
+  background: color-mix(in oklab, var(--gold) 22%, var(--cream));
+  color: var(--ink);
+  border-color: color-mix(in oklab, var(--gold) 60%, transparent);
+}
+
+.action-reserved {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+.action-return {
+  background: color-mix(in oklab, var(--wood) 82%, oklch(0 0 0));
+  color: var(--cream);
+}
+
+@media (max-width: 640px) {
+  .book-spread {
+    aspect-ratio: auto;
+    height: min(560px, 80vh);
+  }
+
+  .spread-pages {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    border-radius: 10px;
+  }
+
+  .spread-page-left {
+    padding: 18px 20px 10px;
+  }
+
+  .spread-page-right {
+    padding: 10px 20px 18px;
+  }
+
+  .spread-pages::after {
+    left: 0;
+    right: 0;
+    top: auto;
+    bottom: 0;
+    height: 44px;
+    width: auto;
+    translate: 0 0;
+    background: linear-gradient(180deg, transparent, oklch(0.28 0.05 50 / 0.22));
+  }
+
+  .mini-cover {
+    width: 88px;
+  }
+
+  .page-title {
+    margin-top: 10px;
+  }
+
+  .page-description {
+    -webkit-line-clamp: 3;
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 12px;
+  }
+
+  .action-btn {
+    padding: 8px 4px;
+    font-size: 10px;
+  }
+}
