@@ -186,7 +186,7 @@ export function BookOpenOverlay({
             duration: 0.85,
             ease: [0.6, 0.05, 0.3, 1],
             delay: coverOpen ? 0.15 : 0,
-            times: coverOpen ? [0, 0.7, 1] : undefined,
+            ...(coverOpen ? { times: [0, 0.7, 1] as const } : {}),
           }}
         >
           <div
