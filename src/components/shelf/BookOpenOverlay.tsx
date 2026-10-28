@@ -176,11 +176,17 @@ export function BookOpenOverlay({
           className="spread-cover"
           style={{ transformOrigin: "left center" }}
           initial={{ rotateY: 0, x: "-50%" }}
-          animate={coverOpen ? { rotateY: -180, x: 0 } : { rotateY: 0, x: "-50%" }}
+          // Once open, the cover fades out so it doesn't sit over the left page.
+          animate={
+            coverOpen
+              ? { rotateY: -180, x: 0, opacity: [1, 1, 0] }
+              : { rotateY: 0, x: "-50%", opacity: 1 }
+          }
           transition={{
             duration: 0.85,
             ease: [0.6, 0.05, 0.3, 1],
             delay: coverOpen ? 0.15 : 0,
+            times: coverOpen ? [0, 0.7, 1] : undefined,
           }}
         >
           <div
