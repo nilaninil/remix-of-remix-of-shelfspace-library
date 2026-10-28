@@ -9,10 +9,12 @@ interface BookSpineProps {
 }
 
 /** Longer titles get a smaller size so they stay fully visible on the spine. */
-function titleFontSize(title: string): number {
-  if (title.length > 22) return 10;
-  if (title.length > 14) return 12;
-  return 14;
+function titleFontSize(title: string, width: number): number {
+  let size: number;
+  if (title.length > 22) size = 10;
+  else if (title.length > 14) size = 12;
+  else size = 14;
+  return Math.min(size, width < 40 ? 11 : size);
 }
 
 export function BookSpine({ book, selected, onSelect }: BookSpineProps) {
@@ -40,7 +42,7 @@ export function BookSpine({ book, selected, onSelect }: BookSpineProps) {
         } as MotionStyle
       }
     >
-      <span className="spine-title" style={{ fontSize: titleFontSize(book.title) }}>
+      <span className="spine-title" style={{ fontSize: titleFontSize(book.title, book.width) }}>
         {book.title}
       </span>
       {showAuthor && <span className="spine-author">{book.author}</span>}
