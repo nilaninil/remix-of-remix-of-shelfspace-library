@@ -42,7 +42,6 @@ Make the bookshelf the visual centerpiece, not a generic admin dashboard.
 
 This project was built with [Lovable](https://lovable.dev).
 
-## Build with Lovable
 
 Continue developing this project in the [Lovable editor](https://lovable.dev/projects/75820363-fbd6-4d9a-902b-c1a40abe6a21).
 
