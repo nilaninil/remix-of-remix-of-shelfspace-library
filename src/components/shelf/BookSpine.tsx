@@ -18,6 +18,7 @@ function titleFontSize(title: string, width: number): number {
 }
 
 export function BookSpine({ book, selected, onSelect }: BookSpineProps) {
+  const displayTitle = book.spineTitle ?? book.title;
   const showAuthor = book.width >= 44 && book.height >= 180 && book.author.length <= 18;
 
   return (
@@ -42,8 +43,8 @@ export function BookSpine({ book, selected, onSelect }: BookSpineProps) {
         } as MotionStyle
       }
     >
-      <span className="spine-title" style={{ fontSize: titleFontSize(book.title, book.width) }}>
-        {book.title}
+      <span className="spine-title" style={{ fontSize: titleFontSize(displayTitle, book.width) }}>
+        {displayTitle}
       </span>
       {showAuthor && <span className="spine-author">{book.author}</span>}
     </motion.button>

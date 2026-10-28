@@ -81,8 +81,8 @@ function Index() {
             The Collection
           </h1>
           <p className="mx-auto mt-3 max-w-xl text-sm text-muted-foreground sm:text-base">
-            Twenty hand-picked volumes across three oak shelves. Hover to lift a spine, click to
-            pull it forward.
+            Thirty-six volumes hand-picked across three oak shelves. Hover to lift a spine,
+            click to pull it forward.
           </p>
         </motion.div>
 

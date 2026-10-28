@@ -7,6 +7,8 @@ export interface Book {
   /** Stable, human-readable id — safe to persist or link against later. */
   id: string;
   title: string;
+  /** Shorter wording for the vertical spine when the full title won't fit. */
+  spineTitle?: string;
   author: string;
   category: Category;
   /** CSS color value; use the --spine-* tokens from the design system. */
@@ -49,7 +51,7 @@ export const BOOKS: Book[] = [
 
   { id: "moby-dick", title: "Moby-Dick", author: "Herman Melville", category: "Fiction", spineColor: NAVY, textTone: "gold", height: 222, width: 62, bands: true },
   { id: "silent-spring", title: "Silent Spring", author: "Rachel Carson", category: "Science", spineColor: SAGE, textTone: "ink", height: 162, width: 38, bands: false },
-  { id: "design-of-everyday-things", title: "The Design of Everyday Things", author: "Don Norman", category: "Technology", spineColor: SLATE, textTone: "gold", height: 172, width: 48, bands: false },
+  { id: "design-of-everyday-things", title: "The Design of Everyday Things", spineTitle: "Everyday Things", author: "Don Norman", category: "Technology", spineColor: SLATE, textTone: "gold", height: 172, width: 48, bands: false },
   { id: "guns-of-august", title: "The Guns of August", author: "Barbara Tuchman", category: "History", spineColor: BURGUNDY, textTone: "gold", height: 178, width: 48, bands: false },
 
   { id: "jane-eyre", title: "Jane Eyre", author: "Charlotte Brontë", category: "Fiction", spineColor: FOREST, textTone: "gold", height: 194, width: 44, bands: false },
@@ -68,7 +70,7 @@ export const BOOKS: Book[] = [
   { id: "silk-roads", title: "The Silk Roads", author: "Peter Frankopan", category: "History", spineColor: MUSTARD, textTone: "ink", height: 206, width: 56, bands: false },
 
   { id: "to-kill-a-mockingbird", title: "To Kill a Mockingbird", author: "Harper Lee", category: "Fiction", spineColor: SAGE, textTone: "ink", height: 184, width: 46, bands: false },
-  { id: "immortal-life-henrietta-lacks", title: "The Immortal Life of Henrietta Lacks", author: "Rebecca Skloot", category: "Science", spineColor: PLUM, textTone: "gold", height: 190, width: 54, bands: false },
+  { id: "immortal-life-henrietta-lacks", title: "The Immortal Life of Henrietta Lacks", spineTitle: "Henrietta Lacks", author: "Rebecca Skloot", category: "Science", spineColor: PLUM, textTone: "gold", height: 190, width: 54, bands: false },
   { id: "soul-of-a-new-machine", title: "The Soul of a New Machine", author: "Tracy Kidder", category: "Technology", spineColor: RUST, textTone: "gold", height: 186, width: 56, bands: true },
   { id: "king-leopolds-ghost", title: "King Leopold's Ghost", author: "Adam Hochschild", category: "History", spineColor: CRIMSON, textTone: "gold", height: 200, width: 48, bands: false },
 
@@ -80,5 +82,5 @@ export const BOOKS: Book[] = [
   { id: "east-of-eden", title: "East of Eden", author: "John Steinbeck", category: "Fiction", spineColor: MUSTARD, textTone: "ink", height: 224, width: 58, bands: true },
   { id: "the-body", title: "The Body", author: "Bill Bryson", category: "Science", spineColor: TEAL, textTone: "gold", height: 208, width: 52, bands: false },
   { id: "ghost-in-the-wires", title: "Ghost in the Wires", author: "Kevin Mitnick", category: "Technology", spineColor: SLATE, textTone: "gold", height: 178, width: 44, bands: false },
-  { id: "genghis-khan-modern-world", title: "Genghis Khan and the Making of the Modern World", author: "Jack Weatherford", category: "History", spineColor: OLIVE, textTone: "ink", height: 210, width: 60, bands: false },
+  { id: "genghis-khan-modern-world", title: "Genghis Khan and the Making of the Modern World", spineTitle: "Genghis Khan", author: "Jack Weatherford", category: "History", spineColor: OLIVE, textTone: "ink", height: 210, width: 60, bands: false },
 ];
