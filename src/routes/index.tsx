@@ -2,9 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { BOOKS, type Book } from "@/data/books";
+import { adjustCopies, initialCopies, type CirculationAction } from "@/lib/circulation";
 import { Navbar } from "@/components/shelf/Navbar";
 import { CategoryFilter, type CategoryFilterValue } from "@/components/shelf/CategoryFilter";
 import { Bookcase } from "@/components/shelf/Bookcase";
+import { BookOpenOverlay } from "@/components/shelf/BookOpenOverlay";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -48,6 +50,7 @@ function Index() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<CategoryFilterValue>("All");
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [copies, setCopies] = useState<Record<string, { available: number; reserved: boolean }>>({});
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -62,6 +65,12 @@ function Index() {
 
   const shelves = useMemo(() => distribute(filtered), [filtered]);
   const selectedBook = BOOKS.find((book) => book.id === selectedId) ?? null;
+
+  const handleCirculation = (action: CirculationAction, id: string) => {
+    const book = BOOKS.find((b) => b.id === id);
+    if (!book) return;
+    setCopies((prev) => ({ ...prev, [id]: adjustCopies(prev[id], book, action) }));
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -81,8 +90,8 @@ function Index() {
             The Collection
           </h1>
           <p className="mx-auto mt-3 max-w-xl text-sm text-muted-foreground sm:text-base">
-            Thirty-six volumes hand-picked across three oak shelves. Hover to lift a spine,
-            click to pull it forward.
+            Thirty-six volumes hand-picked across three oak shelves. Click a spine to pull it off
+            the shelf and open it.
           </p>
         </motion.div>
 
@@ -99,40 +108,25 @@ function Index() {
             <Bookcase
               shelves={shelves}
               selectedId={selectedId}
-              onSelect={(id) => setSelectedId((prev) => (prev === id ? null : id))}
+              onSelect={setSelectedId}
             />
           </motion.div>
         </div>
-
-        <div className="mt-8 flex min-h-[76px] justify-center">
-          <AnimatePresence mode="wait">
-            {selectedBook ? (
-              <motion.div
-                key={selectedBook.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.25 }}
-                className="selected-plate"
-              >
-                <span className="font-display text-lg font-semibold">{selectedBook.title}</span>
-                <span className="text-sm text-muted-foreground">by {selectedBook.author}</span>
-                <span className="plate-chip">{selectedBook.category}</span>
-              </motion.div>
-            ) : (
-              <motion.p
-                key="hint"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="pt-4 text-sm text-muted-foreground italic"
-              >
-                Select a volume to pull it from the shelf.
-              </motion.p>
-            )}
-          </AnimatePresence>
-        </div>
       </main>
+
+      <AnimatePresence>
+        {selectedBook && (
+          <BookOpenOverlay
+            key={selectedBook.id}
+            book={selectedBook}
+            copies={copies[selectedBook.id] ?? initialCopies(selectedBook)}
+            onIssue={(id) => handleCirculation("issue", id)}
+            onReturn={(id) => handleCirculation("return", id)}
+            onToggleReserve={(id) => handleCirculation("toggleReserve", id)}
+            onClose={() => setSelectedId(null)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
