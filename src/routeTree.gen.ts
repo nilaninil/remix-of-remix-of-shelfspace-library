@@ -10,33 +10,63 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CirculationRouteImport } from './routes/circulation'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as OverdueRouteImport } from './routes/overdue'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CirculationRoute = CirculationRouteImport.update({
+  id: '/circulation',
+  path: '/circulation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OverdueRoute = OverdueRouteImport.update({
+  id: '/overdue',
+  path: '/overdue',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/circulation': typeof CirculationRoute
+  '/dashboard': typeof DashboardRoute
+  '/overdue': typeof OverdueRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/circulation': typeof CirculationRoute
+  '/dashboard': typeof DashboardRoute
+  '/overdue': typeof OverdueRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/circulation': typeof CirculationRoute
+  '/dashboard': typeof DashboardRoute
+  '/overdue': typeof OverdueRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/circulation' | '/dashboard' | '/overdue'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/circulation' | '/dashboard' | '/overdue'
+  id: '__root__' | '/' | '/circulation' | '/dashboard' | '/overdue'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CirculationRoute: typeof CirculationRoute
+  DashboardRoute: typeof DashboardRoute
+  OverdueRoute: typeof OverdueRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +78,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/circulation': {
+      id: '/circulation'
+      path: '/circulation'
+      fullPath: '/circulation'
+      preLoaderRoute: typeof CirculationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/overdue': {
+      id: '/overdue'
+      path: '/overdue'
+      fullPath: '/overdue'
+      preLoaderRoute: typeof OverdueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CirculationRoute: CirculationRoute,
+  DashboardRoute: DashboardRoute,
+  OverdueRoute: OverdueRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

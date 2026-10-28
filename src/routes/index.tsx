@@ -2,7 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { BOOKS, type Book } from "@/data/books";
-import { adjustCopies, initialCopies, type CirculationAction } from "@/lib/circulation";
+import { WALK_IN } from "@/data/library";
+import { initialCopies } from "@/lib/circulation";
+import { useLibrary } from "@/lib/library-store";
 import { Navbar } from "@/components/shelf/Navbar";
 import { CategoryFilter, type CategoryFilterValue } from "@/components/shelf/CategoryFilter";
 import { Bookcase } from "@/components/shelf/Bookcase";
@@ -50,7 +52,7 @@ function Index() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<CategoryFilterValue>("All");
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [copies, setCopies] = useState<Record<string, { available: number; reserved: boolean }>>({});
+  const { copies, issue, returnCopyForBook, toggleReserve } = useLibrary();
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -65,12 +67,6 @@ function Index() {
 
   const shelves = useMemo(() => distribute(filtered), [filtered]);
   const selectedBook = BOOKS.find((book) => book.id === selectedId) ?? null;
-
-  const handleCirculation = (action: CirculationAction, id: string) => {
-    const book = BOOKS.find((b) => b.id === id);
-    if (!book) return;
-    setCopies((prev) => ({ ...prev, [id]: adjustCopies(prev[id], book, action) }));
-  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -120,9 +116,9 @@ function Index() {
             key={selectedBook.id}
             book={selectedBook}
             copies={copies[selectedBook.id] ?? initialCopies(selectedBook)}
-            onIssue={(id) => handleCirculation("issue", id)}
-            onReturn={(id) => handleCirculation("return", id)}
-            onToggleReserve={(id) => handleCirculation("toggleReserve", id)}
+            onIssue={(id) => issue(id, WALK_IN.id)}
+            onReturn={(id) => returnCopyForBook(id)}
+            onToggleReserve={(id) => toggleReserve(id)}
             onClose={() => setSelectedId(null)}
           />
         )}
